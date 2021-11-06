@@ -1,6 +1,7 @@
 export enum ErrorType {
     TYPE_USER = 0x01 << 8,
     TYPE_AUTH = 0x02 << 8,
+    TYPE_POST = 0x03 << 8,
 
     TYPE_SYSTEM = 0xff << 8
 }
@@ -27,4 +28,8 @@ export class UserError {
 export class AuthError {
     static NO_TOKEN = new CustomError(400, ErrorType.TYPE_AUTH | 0x01, "No Token");
     static INVALID_TOKEN = new CustomError(403, ErrorType.TYPE_AUTH | 0x02, "Invalid Token");
+}
+
+export class PostError {
+    static NO_POST = new CustomError(404, ErrorType.TYPE_POST | 0x01, "Post Not Found");
 }

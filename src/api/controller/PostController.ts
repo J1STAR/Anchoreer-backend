@@ -31,7 +31,37 @@ class PostController {
                 let requester = await this.userService.getUserByToken(token);
                 let savedPost = await this.postService.createPost(requester, post);
 
-                res.status(200).send(savedPost);
+                res.status(201).send(savedPost);
+            } catch (err) {
+                next(err);
+            }
+        })
+
+        this.router.post('/:postId/comments', async (req: Request, res: Response, next) => {
+
+            let comment = req.body;
+            let postId: number = Number(req.params.postId);
+
+            // this.requestManager.getToken(req)
+            // .then(token => {
+            //     this.userService.getUserByToken(token)
+            //     .then((requester) => {
+            //         this.postService.createComment(requester, postId, comment)
+            //         .then((savedComment) => {
+            //             res.status(201).send(savedComment);
+            //         })
+            //     })
+            // })
+
+            try {
+                let comment = req.body;
+
+                let postId: number = Number(req.params.postId);
+                let token = await this.requestManager.getToken(req);
+                let requester = await this.userService.getUserByToken(token);
+                let savedComment = await this.postService.createComment(requester, postId, comment);
+
+                res.status(201).send(savedComment);
             } catch (err) {
                 next(err);
             }

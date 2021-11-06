@@ -18,3 +18,11 @@ export class PostDto {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export class CommentDto {
+    id: number;
+    contents: string;
+    createdBy: UserDto;
+    createdAt: Date;
+    updatedAt: Date;
+}

@@ -21,7 +21,7 @@ class UserController {
 
             this.userService.signUp(user)
             .then(user => {
-                res.status(200).send(user);
+                res.status(201).send(user);
             }).catch(err => {
                 next(err);
             });
