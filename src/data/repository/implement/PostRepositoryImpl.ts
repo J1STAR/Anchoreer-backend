@@ -17,4 +17,9 @@ export default class PostRepositoryImpl implements PostRepository {
         return await postRepo.findOne({where: {id: id}});
     }
 
+    async findAll(): Promise<Post[]> {
+        const postRepo = (await connection).getRepository(Post);
+        return await postRepo.find({order: { createdAt: "DESC"}});
+    }
+
 }

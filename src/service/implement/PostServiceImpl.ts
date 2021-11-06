@@ -56,6 +56,12 @@ export default class PostServiceImpl implements PostService {
         }
     }
 
+    async getPosts(): Promise<PostDto[]> {
+        let posts = await this.postRepository.findAll();
+        return posts.map(post => this.postMapper.convert(post));
+        
+    }
+
     async createComment(user: UserDto, postId: number, comment: CommentDto): Promise<CommentDto> {
         if(isNaN(postId)) throw PostError.NO_POST;
 

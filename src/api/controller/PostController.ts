@@ -50,6 +50,16 @@ class PostController {
             }
         })
 
+        this.router.get('', async (req: Request, res: Response, next) => {
+            try {
+                let posts = await this.postService.getPosts();
+
+                res.status(200).send(posts);
+            } catch (err) {
+                next(err);
+            }
+        })
+
         this.router.post('/:postId/comments', async (req: Request, res: Response, next) => {
             try {
                 let comment = req.body;
