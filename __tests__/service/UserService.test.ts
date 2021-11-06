@@ -6,7 +6,7 @@ import { connection } from "../../src/data/connection/Connection";
 
 import { User } from "../../src/data/entity/User";
 import { UserService } from "../../src/service";
-import { UserDto } from "../../src/api/dto";
+import { AuthTokenDto, UserDto } from "../../src/api/dto";
 import { CustomError, UserError } from "../../src/error";
 
 let conn: Connection;
@@ -65,4 +65,28 @@ test('signUp test: invalid password', async () => {
         expect(err).toEqual(UserError.INVALID_PASSWORD);
     }
 
+})
+
+test('signIn test: invalid user', async () => {
+    let userService: UserService = container.get("UserService");
+
+    let user = new UserDto();
+    user.email = "email";
+    user.password = "password";
+
+    try {
+        await userService.signIn(user);
+    } catch (err) {
+        expect(err).toEqual(UserError.INVALID_USER);
+    }
+})
+
+test('signIn test: getToken', async () => {
+    let userService: UserService = container.get("UserService");
+
+    let user = new UserDto();
+    user.email = "zunkyu.park@email.com";
+    user.password = "1234";
+    
+    expect(await userService.signIn(user)).toBeInstanceOf(AuthTokenDto);
 })
