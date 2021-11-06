@@ -59,7 +59,13 @@ export default class PostServiceImpl implements PostService {
     async getPosts(): Promise<PostDto[]> {
         let posts = await this.postRepository.findAll();
         return posts.map(post => this.postMapper.convert(post));
-        
+    }
+
+    async getPostsPageable(page: number, size: number): Promise<PostDto[]> {
+        if(page == 0) page = 1;
+
+        let posts = await this.postRepository.findAllPageable(page, size);
+        return posts.map(post => this.postMapper.convert(post));
     }
 
     async createComment(user: UserDto, postId: number, comment: CommentDto): Promise<CommentDto> {

@@ -52,7 +52,15 @@ class PostController {
 
         this.router.get('', async (req: Request, res: Response, next) => {
             try {
-                let posts = await this.postService.getPosts();
+                let page = Number(req.query.page);
+                let size = Number(req.query.size);
+
+                let posts;
+                if(!isNaN(page) && !isNaN(size) && page > 0 && size > 0) {
+                    posts = await this.postService.getPostsPageable(page, size);
+                } else {
+                    posts = await this.postService.getPosts();
+                }
 
                 res.status(200).send(posts);
             } catch (err) {

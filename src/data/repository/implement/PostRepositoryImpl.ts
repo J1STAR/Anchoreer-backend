@@ -22,4 +22,9 @@ export default class PostRepositoryImpl implements PostRepository {
         return await postRepo.find({order: { createdAt: "DESC"}});
     }
 
+    async findAllPageable(page: number, size: number): Promise<Post[]> {
+        const postRepo = (await connection).getRepository(Post);
+        return await postRepo.find({order: { createdAt: "DESC"}, skip: (page - 1) * size, take: size});
+    }
+
 }
