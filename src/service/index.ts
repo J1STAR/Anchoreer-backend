@@ -8,6 +8,7 @@ export interface UserService {
 
 export interface PostService {
     createPost(user: Dto.UserDto, post: Dto.PostDto): Promise<Dto.PostDto>;
+    getPostWithAllCommentsByPostId(postId: number): Promise<Dto.PostDto>;
     createComment(user: Dto.UserDto, postId: number, comment: Dto.CommentDto): Promise<Dto.CommentDto>;
     updateComment(comment: Dto.CommentDto): Promise<Dto.CommentDto>;
     deleteComment(comentId: number): Promise<void>;

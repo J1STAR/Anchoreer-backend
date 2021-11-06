@@ -24,4 +24,5 @@ export interface CommentRepository {
     save(comment: Comment): Promise<Comment>;
     findById(id: number): Promise<Comment>;
     deleteById(id: number): Promise<void>;
+    findByPostId(postId: number): Promise<Comment[]>;
 }

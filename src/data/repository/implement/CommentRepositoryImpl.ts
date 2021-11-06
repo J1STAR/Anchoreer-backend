@@ -19,7 +19,11 @@ export default class CommentRepositoryImpl implements CommentRepository {
 
     async deleteById(id: number): Promise<void> {
         const commentRepo = (await connection).getRepository(Comment);
-        let deleteResult = await commentRepo.delete(id);
+        await commentRepo.delete(id);
     }
 
+    async findByPostId(postId: number): Promise<Comment[]> {
+        const commentRepo = (await connection).getRepository(Comment);
+        return await commentRepo.find({where: {post: postId}});
+    }
 }

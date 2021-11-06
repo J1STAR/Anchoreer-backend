@@ -37,6 +37,19 @@ class PostController {
             }
         })
 
+        this.router.get('/:postId', async (req: Request, res: Response, next) => {
+
+            let postId: number = Number(req.params.postId);
+
+            try {
+                let post = await this.postService.getPostWithAllCommentsByPostId(postId);
+
+                res.status(200).send(post);
+            } catch (err) {
+                next(err);
+            }
+        })
+
         this.router.post('/:postId/comments', async (req: Request, res: Response, next) => {
             try {
                 let comment = req.body;

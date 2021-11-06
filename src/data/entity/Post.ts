@@ -13,7 +13,7 @@ export class Post {
     @Column("text")
     contents: string;
 
-    @ManyToOne(() => User, { onDelete: "CASCADE" })
+    @ManyToOne(() => User, { onDelete: "CASCADE", eager: true })
     @JoinColumn({ name: "createdBy" , referencedColumnName: "id"})
     createdBy: User;
 

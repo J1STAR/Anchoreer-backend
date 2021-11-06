@@ -17,6 +17,7 @@ export class PostDto {
     createdBy: UserDto;
     createdAt: Date;
     updatedAt: Date;
+    comments: CommentDto[];
 }
 
 export class CommentDto {
