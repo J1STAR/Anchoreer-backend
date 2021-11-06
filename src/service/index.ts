@@ -11,6 +11,7 @@ export interface PostService {
     getPostWithAllCommentsByPostId(postId: number): Promise<Dto.PostDto>;
     getPosts(): Promise<Dto.PostDto[]>;
     getPostsPageable(page: number, size: number): Promise<Dto.PostDto[]>;
+    getPostsByUserName(userName: string): Promise<Dto.PostDto[]>;
     createComment(user: Dto.UserDto, postId: number, comment: Dto.CommentDto): Promise<Dto.CommentDto>;
     updateComment(comment: Dto.CommentDto): Promise<Dto.CommentDto>;
     deleteComment(comentId: number): Promise<void>;

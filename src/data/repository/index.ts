@@ -20,6 +20,7 @@ export interface PostRepository {
     findById(id: number): Promise<Post>;
     findAll(): Promise<Post[]>;
     findAllPageable(page: number, size: number): Promise<Post[]>;
+    findByUserName(userName: string): Promise<Post[]>;
 }
 
 export interface CommentRepository {
