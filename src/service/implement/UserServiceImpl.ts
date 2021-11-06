@@ -46,6 +46,7 @@ export default class UserServiceImpl implements UserService {
         let userToSignUp = new User();
 
         userToSignUp.email = user.email;
+        userToSignUp.userName = user.userName;
         userToSignUp.password = encryptedPassword;
         userToSignUp.salt = salt;
         userToSignUp.createdAt = new Date();
