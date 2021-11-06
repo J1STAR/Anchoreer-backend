@@ -14,6 +14,7 @@ export class Post {
     contents: string;
 
     @ManyToOne(() => User, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "createdBy" , referencedColumnName: "id"})
     createdBy: User;
 
     @CreateDateColumn()
