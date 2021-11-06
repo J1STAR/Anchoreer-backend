@@ -1,4 +1,5 @@
 import { AuthToken } from "../entity/AuthToken";
+import { Post } from "../entity/Post";
 import { User } from "../entity/User";
 
 export interface UserRepository {
@@ -9,4 +10,9 @@ export interface UserRepository {
 
 export interface AuthTokenRepository {
     save(authToken: AuthToken): Promise<AuthToken>;
+    findById(token: string): Promise<AuthToken>;
+}
+
+export interface PostRepository {
+    save(post: Post): Promise<Post>;
 }

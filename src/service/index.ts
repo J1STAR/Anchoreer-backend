@@ -1,6 +1,11 @@
-import { AuthTokenDto, UserDto } from "../api/dto";
+import * as Dto from "../api/dto";
 
 export interface UserService {
-    signUp(user: UserDto): Promise<UserDto>;
-    signIn(user: UserDto): Promise<AuthTokenDto>;
+    signUp(user: Dto.UserDto): Promise<Dto.UserDto>;
+    signIn(user: Dto.UserDto): Promise<Dto.AuthTokenDto>;
+    getUserByToken(token: string): Promise<Dto.UserDto>;
+}
+
+export interface PostService {
+    createPost(user: Dto.UserDto, post: Dto.PostDto): Promise<Dto.PostDto>;
 }

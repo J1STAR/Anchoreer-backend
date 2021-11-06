@@ -8,3 +8,12 @@ export class UserDto {
 export class AuthTokenDto {
     token: string;
 }
+
+export class PostDto {
+    id: number;
+    title: string;
+    contents: string;
+    createdBy: UserDto;
+    createdAt: Date;
+    updatedAt: Date;
+}

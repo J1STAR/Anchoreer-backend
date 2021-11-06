@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
-import { inject } from 'inversify';
 import container from '../../injector';
 
 import { UserService } from '../../service';
@@ -12,7 +11,7 @@ class UserController {
     private userService: UserService;
  
     constructor(
-        @inject("UserService") userService: UserService
+        userService: UserService
     ) {
         this.userService = userService;
 
@@ -26,7 +25,6 @@ class UserController {
             }).catch(err => {
                 next(err);
             });
-
         })
 
         this.router.post('/sign-in', (req: Request, res: Response, next) => {

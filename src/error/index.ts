@@ -1,7 +1,6 @@
 export enum ErrorType {
     TYPE_USER = 0x01 << 8,
-    TYPE_CLIENT = 0x02 << 8,
-    TYPE_AUTH = 0x03 << 8,
+    TYPE_AUTH = 0x02 << 8,
 
     TYPE_SYSTEM = 0xff << 8
 }
@@ -25,6 +24,7 @@ export class UserError {
     static INVALID_USER = new CustomError(400, ErrorType.TYPE_USER | 0x04, "Invalid User");
 }
 
-export class ClientError {
-    static NO_TOKEN = new CustomError(400, ErrorType.TYPE_CLIENT | 0x01, "No Token");
+export class AuthError {
+    static NO_TOKEN = new CustomError(400, ErrorType.TYPE_AUTH | 0x01, "No Token");
+    static INVALID_TOKEN = new CustomError(403, ErrorType.TYPE_AUTH | 0x02, "Invalid Token");
 }

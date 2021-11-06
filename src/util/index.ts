@@ -8,3 +8,7 @@ export interface Encryptor {
     getRandomValue(): string;
     encrypt(message: string, salt: string): string;
 }
+
+export interface RequestManager {
+    getToken(req: Request): Promise<string>;
+}

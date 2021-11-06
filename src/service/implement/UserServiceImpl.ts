@@ -1,5 +1,4 @@
 import { inject, injectable } from "inversify";
-import { createImmediatelyInvokedFunctionExpression } from "typescript";
 
 import { UserService } from "..";
 import { AuthTokenDto, UserDto } from "../../api/dto";
@@ -7,7 +6,7 @@ import { AuthToken } from "../../data/entity/AuthToken";
 import { User } from "../../data/entity/User";
 import { AuthTokenMapper, UserMapper } from "../../data/mapper/ModelMapper";
 import { AuthTokenRepository, UserRepository } from "../../data/repository";
-import { UserError } from "../../error";
+import { AuthError, UserError } from "../../error";
 import { Encryptor, Validator } from "../../util";
 
 @injectable()
@@ -75,6 +74,19 @@ export default class UserServiceImpl implements UserService {
             }
         } else {
             throw UserError.INVALID_USER;
+        }
+    }
+
+    async getUserByToken(token: string): Promise<UserDto> {
+        if(token == null || token == undefined || token == "") throw AuthError.INVALID_TOKEN;
+
+        let findedToken = await this.authTokenRepository.findById(token);
+        if(findedToken) {
+            let user = this.userMapper.convert(findedToken.user);
+            user.password = "";
+            return user;
+        } else {
+            throw AuthError.INVALID_TOKEN;
         }
     }
 }

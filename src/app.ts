@@ -1,8 +1,10 @@
 import 'reflect-metadata';
 import * as express from 'express';
 
-import { userController } from './api/controller/UserController';
 import { errorHandler, requestLogger } from './middle-ware';
+
+import { userController } from './api/controller/UserController';
+import { postController } from './api/controller/PostController';
 
 export default class App {
     
@@ -17,6 +19,7 @@ export default class App {
         this.server.use(requestLogger);
 
         this.server.use('/users', userController);
+        this.server.use('/posts', postController);
 
         this.server.use(errorHandler);
     }
