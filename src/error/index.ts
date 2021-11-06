@@ -32,4 +32,5 @@ export class AuthError {
 
 export class PostError {
     static NO_POST = new CustomError(404, ErrorType.TYPE_POST | 0x01, "Post Not Found");
+    static NO_COMMENT = new CustomError(404, ErrorType.TYPE_POST | 0x02, "Comment Not Found");
 }

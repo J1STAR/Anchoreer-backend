@@ -38,21 +38,6 @@ class PostController {
         })
 
         this.router.post('/:postId/comments', async (req: Request, res: Response, next) => {
-
-            let comment = req.body;
-            let postId: number = Number(req.params.postId);
-
-            // this.requestManager.getToken(req)
-            // .then(token => {
-            //     this.userService.getUserByToken(token)
-            //     .then((requester) => {
-            //         this.postService.createComment(requester, postId, comment)
-            //         .then((savedComment) => {
-            //             res.status(201).send(savedComment);
-            //         })
-            //     })
-            // })
-
             try {
                 let comment = req.body;
 
@@ -62,6 +47,16 @@ class PostController {
                 let savedComment = await this.postService.createComment(requester, postId, comment);
 
                 res.status(201).send(savedComment);
+            } catch (err) {
+                next(err);
+            }
+        })
+
+        this.router.put('/comments', async (req: Request, res: Response, next) => {
+            try {
+                let comment = req.body;
+                let updatedComment = await this.postService.updateComment(comment);
+                res.status(200).send(updatedComment);
             } catch (err) {
                 next(err);
             }

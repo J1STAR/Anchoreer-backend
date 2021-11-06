@@ -1,4 +1,5 @@
 import { inject, injectable } from "inversify";
+import { isExternalModuleNameRelative } from "typescript";
 import { PostService } from "..";
 import { UserDto, PostDto, CommentDto } from "../../api/dto";
 import { Comment } from "../../data/entity/Comment";
@@ -45,7 +46,7 @@ export default class PostServiceImpl implements PostService {
 
     async createComment(user: UserDto, postId: number, comment: CommentDto): Promise<CommentDto> {
         if(isNaN(postId)) throw PostError.NO_POST;
-        
+
         let findedUser = await this.userRepository.findById(user.id);
         if(findedUser) {
             let findedPost = await this.postRepository.findById(postId);
@@ -62,6 +63,21 @@ export default class PostServiceImpl implements PostService {
             }
         } else {
             throw UserError.INVALID_USER;
+        }
+    }
+
+    async updateComment(comment: CommentDto): Promise<CommentDto> {
+        if(isNaN(comment.id)) throw PostError.NO_COMMENT;
+
+        let findedComment = await this.commentRepository.findById(comment.id);
+        if(findedComment) {
+            findedComment.contents = comment.contents;
+            findedComment.updatedAt = new Date();
+
+            let updatedComment = await this.commentRepository.save(findedComment);
+            return this.commentMapper.convert(updatedComment);
+        } else {
+            throw PostError.NO_COMMENT;
         }
     }
 }

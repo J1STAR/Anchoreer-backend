@@ -11,7 +11,7 @@ export class Comment {
     @Column()
     contents: string;
 
-    @ManyToOne(() => User, { onDelete: "SET NULL" })
+    @ManyToOne(() => User, { onDelete: "SET NULL", eager: true })
     @JoinColumn({ name: "createdBy" , referencedColumnName: "id"})
     createdBy: User;
 
