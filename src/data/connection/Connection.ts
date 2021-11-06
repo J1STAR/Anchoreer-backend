@@ -1,4 +1,5 @@
 import { createConnection, Connection } from "typeorm";
+import { AuthToken } from "../entity/AuthToken";
 
 import { User } from "../entity/User";
 
@@ -9,7 +10,7 @@ export const connection: Promise<Connection> = createConnection({
     username: "root",
     password: "password",
     database: "jasoseol_zunkyu",
-    entities: [User],
+    entities: [User, AuthToken],
     logging: false,
     synchronize: true
 });

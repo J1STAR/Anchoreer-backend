@@ -1,10 +1,12 @@
 import { inject, injectable } from "inversify";
+import { createImmediatelyInvokedFunctionExpression } from "typescript";
 
 import { UserService } from "..";
-import { UserDto } from "../../api/dto";
+import { AuthTokenDto, UserDto } from "../../api/dto";
+import { AuthToken } from "../../data/entity/AuthToken";
 import { User } from "../../data/entity/User";
-import { UserMapper } from "../../data/mapper/ModelMapper";
-import { UserRepository } from "../../data/repository";
+import { AuthTokenMapper, UserMapper } from "../../data/mapper/ModelMapper";
+import { AuthTokenRepository, UserRepository } from "../../data/repository";
 import { UserError } from "../../error";
 import { Encryptor, Validator } from "../../util";
 
@@ -13,17 +15,23 @@ export default class UserServiceImpl implements UserService {
 
     private userMapper: UserMapper;
     private userRepository: UserRepository;
+    private authTokenMapper: AuthTokenMapper;
+    private authTokenRepository: AuthTokenRepository;
     private validator: Validator;
     private encryptor: Encryptor;
 
     constructor(
         @inject("UserMapper") userMapper: UserMapper,
         @inject("UserRepository") userRepository: UserRepository,
+        @inject("AuthTokenMapper") authTokenMapper: AuthTokenMapper,
+        @inject("AuthTokenRepository") authTokenRepository: AuthTokenRepository,
         @inject("Validator") validator: Validator,
         @inject("Encryptor") encryptor: Encryptor
     ) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
+        this.authTokenMapper = authTokenMapper;
+        this.authTokenRepository = authTokenRepository;
         this.validator = validator;
         this.encryptor = encryptor;
     }
@@ -50,5 +58,23 @@ export default class UserServiceImpl implements UserService {
         savedUserDto.password = "";
 
         return savedUserDto;
+    }
+
+    async signIn(user: UserDto): Promise<AuthTokenDto> {
+        if(user.email == null || user.email == undefined || user.email == "") throw UserError.INVALID_EMAIL;
+        if(user.password == null || user.password == undefined || user.password == "") throw UserError.INVALID_PASSWORD;
+
+        let findedUser = await this.userRepository.findByEmail(user.email);
+        if(findedUser) {
+            const encryptedPassword = this.encryptor.encrypt(user.password, findedUser.salt);
+            if (encryptedPassword === findedUser.password) {
+                let savedToken = await this.authTokenRepository.save(new AuthToken(findedUser));
+                return this.authTokenMapper.convert(savedToken);
+            } else {
+                throw UserError.INVALID_USER;
+            }
+        } else {
+            throw UserError.INVALID_USER;
+        }
     }
 }

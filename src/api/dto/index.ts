@@ -4,3 +4,7 @@ export class UserDto {
     password: string;
     createdAt: Date;
 }
+
+export class AuthTokenDto {
+    token: string;
+}

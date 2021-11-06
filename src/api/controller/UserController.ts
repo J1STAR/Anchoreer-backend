@@ -29,6 +29,18 @@ class UserController {
 
         })
 
+        this.router.post('/sign-in', (req: Request, res: Response, next) => {
+
+            let user: UserDto = req.body;
+
+            this.userService.signIn(user)
+            .then(token => {
+                res.status(200).send(token);
+            }).catch(err => {
+                next(err);
+            })
+        })
+
     }
  }
  

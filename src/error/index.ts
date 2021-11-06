@@ -22,6 +22,7 @@ export class UserError {
     static ALREADY_EXIST_EMAIL = new CustomError(403, ErrorType.TYPE_USER | 0x01, "Already Exist Email");
     static INVALID_EMAIL = new CustomError(400, ErrorType.TYPE_USER | 0x02, "Invalid Email");
     static INVALID_PASSWORD = new CustomError(400, ErrorType.TYPE_USER | 0x03, "Invalid Password");
+    static INVALID_USER = new CustomError(400, ErrorType.TYPE_USER | 0x04, "Invalid User");
 }
 
 export class ClientError {

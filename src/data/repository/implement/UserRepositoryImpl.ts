@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
-import { getManager } from "typeorm";
 import { UserRepository } from "..";
-import { UserError } from "../../../error";
+
 import { connection } from "../../connection/Connection";
 
 import { User } from "../../entity/User";
@@ -23,7 +22,12 @@ export default class UserRepositoryImpl implements UserRepository {
     async save(user: User): Promise<User> {
         const userRepo = (await connection).getRepository(User);
         
-        return userRepo.save(user);
+        return await userRepo.save(user);
+    }
+
+    async findByEmail(email: string): Promise<User> {
+        const userRepo = (await connection).getRepository(User);
+        return await userRepo.findOne({where: {email: email}});
     }
 
 }
