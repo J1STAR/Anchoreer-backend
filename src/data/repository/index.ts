@@ -23,4 +23,5 @@ export interface PostRepository {
 export interface CommentRepository {
     save(comment: Comment): Promise<Comment>;
     findById(id: number): Promise<Comment>;
+    deleteById(id: number): Promise<void>;
 }

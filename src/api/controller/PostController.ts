@@ -61,6 +61,16 @@ class PostController {
                 next(err);
             }
         })
+
+        this.router.delete('/comments/:commentId', async (req: Request, res: Response, next) => {
+            try {
+                let commentId = Number(req.params.commentId);
+                await this.postService.deleteComment(commentId);
+                res.status(204).send();
+            } catch (err) {
+                next(err);
+            }
+        })
     }
  }
  

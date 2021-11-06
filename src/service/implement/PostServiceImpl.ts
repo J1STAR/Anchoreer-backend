@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { isExternalModuleNameRelative } from "typescript";
+import { isExternalModuleNameRelative, isNamedExportBindings } from "typescript";
 import { PostService } from "..";
 import { UserDto, PostDto, CommentDto } from "../../api/dto";
 import { Comment } from "../../data/entity/Comment";
@@ -79,5 +79,11 @@ export default class PostServiceImpl implements PostService {
         } else {
             throw PostError.NO_COMMENT;
         }
+    }
+
+    async deleteComment(commentId: number): Promise<void> {
+        if(isNaN(commentId)) throw PostError.NO_COMMENT;
+
+        this.commentRepository.deleteById(commentId);
     }
 }
