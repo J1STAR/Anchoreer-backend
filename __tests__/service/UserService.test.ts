@@ -82,6 +82,21 @@ test('signUp: invalid password', async () => {
 
 })
 
+test('signIn: getToken', async () => {
+    let userService: UserService = container.get("UserService");
+
+    let userToSignUp = new UserDto();
+    userToSignUp.email = "test_email@email.com";
+    userToSignUp.userName = "test_user";
+    userToSignUp.password = "password";
+
+    await userService.signUp(userToSignUp);
+    
+    let token = await userService.signIn(userToSignUp);
+    expect(token).toBeInstanceOf(AuthTokenDto);
+})
+
+
 test('signIn: invalid user', async () => {
     let userService: UserService = container.get("UserService");
 
