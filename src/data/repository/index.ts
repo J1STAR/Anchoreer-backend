@@ -21,8 +21,8 @@ export interface PostRepository {
     findAll(): Promise<Post[]>;
     findAllOrderBy(orderByOption: any): Promise<Post[]>;
     findAllPageableOrderby(page: number, size: number, orderByOption: any): Promise<Post[]>;
-    findByUserName(userName: string): Promise<Post[]>;
-    findByTitle(title: string): Promise<Post[]>;
+    findByUserName(userName: string, orderByOption: any): Promise<Post[]>;
+    findByTitle(title: string, orderByOption: any): Promise<Post[]>;
 }
 
 export interface CommentRepository {

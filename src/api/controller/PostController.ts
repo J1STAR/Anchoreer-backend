@@ -67,8 +67,9 @@ class PostController {
         this.router.get('/search/user-name/:userName', async (req: Request, res: Response, next) => {
             try {
                 let userName = req.params.userName;
+                let sort = req.query.sort as string;
 
-                let posts = await this.postService.getPostsByUserName(userName);
+                let posts = await this.postService.getPostsByUserName(userName, sort);
 
                 res.status(200).send(posts);
             } catch (err) {
@@ -79,8 +80,9 @@ class PostController {
         this.router.get('/search/title/:title', async (req: Request, res: Response, next) => {
             try {
                 let title = req.params.title;
+                let sort = req.query.sort as string;
 
-                let posts = await this.postService.getPostsByTitle(title);
+                let posts = await this.postService.getPostsByTitle(title, sort);
 
                 res.status(200).send(posts);
             } catch (err) {

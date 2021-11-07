@@ -9,8 +9,8 @@ export const connection: Promise<Connection> = createConnection({
     type: "mysql",
     host: "localhost",
     port: 3306,
-    username: "root",
-    password: "password",
+    username: "root", //DB 사용자
+    password: "password", //DB 사용자 비밀번호
     database: "jasoseol_zunkyu",
     entities: [User, AuthToken, Post, Comment],
     logging: false,

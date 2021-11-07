@@ -59,25 +59,7 @@ export default class PostServiceImpl implements PostService {
 
     async getPosts(page: number, size: number, sort: string): Promise<PostDto[]> {
 
-        let orderByOption;
-
-        switch(sort) {
-            case "createdAt,asc":
-                orderByOption = { createdAt: "ASC"}
-                break;
-            case "createdAt,desc":
-                orderByOption = { createdAt: "DESC"}
-                break;
-            case "updatedAt,asc":
-                orderByOption = { updatedAt: "ASC"}
-                break;
-            case "updatedAt,desc":
-                orderByOption = { updatedAt: "DESC"}
-                break;
-            default:
-                orderByOption = { createdAt: "DESC"}
-                break;
-        }
+        let orderByOption = this.getPostOrderByOption(sort);
 
         let posts;
 
@@ -90,25 +72,21 @@ export default class PostServiceImpl implements PostService {
         return posts.map(post => this.postMapper.convert(post));
     }
 
-    // async getPostsPageable(page: number, size: number): Promise<PostDto[]> {
-    //     if(page == 0) page = 1;
-
-    //     let posts = await this.postRepository.findAllPageable(page, size);
-    //     return posts.map(post => this.postMapper.convert(post));
-    // }
-
-    async getPostsByUserName(userName: string): Promise<PostDto[]> {
-        let posts = await this.postRepository.findByUserName(userName);
+    async getPostsByUserName(userName: string, sort: string): Promise<PostDto[]> {
+        let orderByOption = this.getPostOrderByOption(sort);
+        let posts = await this.postRepository.findByUserName(userName, orderByOption);
         return posts.map(post => this.postMapper.convert(post));
     }
 
-    async getPostsByTitle(title: string): Promise<PostDto[]> {
-        let posts = await this.postRepository.findByTitle(title);
+    async getPostsByTitle(title: string, sort: string): Promise<PostDto[]> {
+        let orderByOption = this.getPostOrderByOption(sort);
+        let posts = await this.postRepository.findByTitle(title, orderByOption);
         return posts.map(post => this.postMapper.convert(post));
     }
 
     async createComment(user: UserDto, postId: number, comment: CommentDto): Promise<CommentDto> {
         if(isNaN(postId)) throw PostError.NO_POST;
+        if(comment.contents === null || comment.contents === undefined || comment.contents === "") throw PostError.INVALID_COMMENT;
 
         let findedUser = await this.userRepository.findById(user.id);
         if(findedUser) {
@@ -131,6 +109,7 @@ export default class PostServiceImpl implements PostService {
 
     async updateComment(comment: CommentDto): Promise<CommentDto> {
         if(isNaN(comment.id)) throw PostError.NO_COMMENT;
+        if(comment.contents === null || comment.contents === undefined || comment.contents === "") throw PostError.INVALID_COMMENT;
 
         let findedComment = await this.commentRepository.findById(comment.id);
         if(findedComment) {
@@ -145,8 +124,32 @@ export default class PostServiceImpl implements PostService {
     }
 
     async deleteComment(commentId: number): Promise<void> {
-        if(isNaN(commentId)) throw PostError.NO_COMMENT;
+        if(isNaN(commentId)) throw PostError.INVALID_COMMENT_ID;
 
         this.commentRepository.deleteById(commentId);
+    }
+
+    private getPostOrderByOption(sort: string) {
+        let orderByOption;
+
+        switch(sort) {
+            case "createdAt,asc":
+                orderByOption = { createdAt: "ASC"}
+                break;
+            case "createdAt,desc":
+                orderByOption = { createdAt: "DESC"}
+                break;
+            case "updatedAt,asc":
+                orderByOption = { updatedAt: "ASC"}
+                break;
+            case "updatedAt,desc":
+                orderByOption = { updatedAt: "DESC"}
+                break;
+            default:
+                orderByOption = { createdAt: "DESC"}
+                break;
+        }
+
+        return orderByOption;
     }
 }

@@ -33,15 +33,15 @@ export default class PostRepositoryImpl implements PostRepository {
         return await postRepo.find({order: orderByOption, skip: (page - 1) * size, take: size});
     }
 
-    async findByUserName(userName: string): Promise<Post[]> {
+    async findByUserName(userName: string, orderByOption: any): Promise<Post[]> {
         const postRepo = (await connection).getRepository(Post);
-        let posts = await postRepo.find({relations: ["createdBy"], where: {createdBy: {userName: userName}}, order: {createdAt: "DESC"}});
+        let posts = await postRepo.find({relations: ["createdBy"], where: {createdBy: {userName: userName}}, order: orderByOption});
         return posts;
     }
 
-    async findByTitle(title: string): Promise<Post[]> {
+    async findByTitle(title: string, orderByOption: any): Promise<Post[]> {
         const postRepo = (await connection).getRepository(Post);
-        let posts = await postRepo.find({where: {title: Like('%' + title + '%')}, order: {createdAt: "DESC"}});
+        let posts = await postRepo.find({where: {title: Like('%' + title + '%')}, order: orderByOption});
         return posts;
     }
 
