@@ -1,12 +1,12 @@
-# 자소설닷컴 백엔드 과제 API - 박준규
+# 앵커리어 백엔드 과제 API - 박준규
 ***
-자소설닷컴 백엔드 과제 API 입니다.
-본 백엔드 애플리케이션은 node.js 기반으로 제작되었습니다.
+앵커리어 백엔드 과제 API 입니다.
+본 백엔드 애플리케이션은 `node.js` 기반으로 제작되었습니다.
 
 ## Requirement
 ***
 해당 어플리케이션 실행 전 다음 프로세스를 진행해주시기 바랍니다.
-1. localhost 3306 port로 MySql 서버 실행
+1. localhost의 3306 port로 MySql 서버 실행
 2. MySql 새로운 스키마 생성
     ```sql
     CREATE SCHEMA `jasoseol_zunkyu` DEFAULT CHARACTER SET utf8mb4 ;
@@ -33,7 +33,7 @@ Error: listen EADDRINUSE: address already in use :::7041
 ```sh
 lsof -i :7041
 ```
-위 명령어로 발견한 PID를 다음 명령어로 종료시켜주시기 바랍니다.
+다음 명령어로 종료시켜주시기 바랍니다.
 ```sh
 kill -9 PID
 ```
@@ -130,10 +130,10 @@ HttpStatus: `200` OK
 ```
 
 해당 토큰은 글작성, 댓글작성에 사용됩니다.
-HttpHeader에 Authorization에 Bearer type으로 사용해주시기 바랍니다.
+HttpHeader의 Authorization에 Bearer type으로 사용해주시기 바랍니다.
 
 #### Error 
-- email없이 요청한 경우
+- email 없이 요청한 경우
     HttpStatus: `400` Bad Request
     ```json
     {
@@ -143,7 +143,7 @@ HttpHeader에 Authorization에 Bearer type으로 사용해주시기 바랍니다
     }
     ```
 
-- Password없이 요청한 경우
+- Password 없이 요청한 경우
     HttpStatus: `400` Bad Request
     ```json
     {
@@ -205,7 +205,7 @@ HttpStatus: `201` Created
 ```
 
 #### Error 
-- token없이 요청한 경우
+- token 없이 요청한 경우
     HttpStatus: `401` Unauthorized
     ```json
     {
@@ -225,7 +225,7 @@ HttpStatus: `201` Created
     }
     ```
 
-- title없이 요청한 경우
+- title 없이 요청한 경우
     HttpStatus: `400` Bad Request
     ```json
     {
@@ -287,10 +287,10 @@ HttpStatus: `200` OK
 - size: number `(optional)`
 - sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
 
-pagination이 필요한 경우 page, size 파라미터를 이용하시기 바랍니다.
+pagination이 필요한 경우 page, size 파라미터를 이용해주시기 바랍니다.
 해당 파라미터가 없으면 모든 글을 조회합니다.
 
-정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 이용하시기 바랍니다.
+정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 이용해주시기 바랍니다.
 해당 파라미터가 없으면 생성일 기준 내림차순으로 조회합니다.
 
 
@@ -338,7 +338,7 @@ HttpStatus: `200` OK
 ##### RequestParameters
 - sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
 
-정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 이용하시기 바랍니다.
+정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 이용해주시기 바랍니다.
 해당 파라미터가 없으면 생성일 기준 내림차순으로 조회합니다.
 
 #### Response
@@ -385,7 +385,7 @@ HttpStatus: `200` OK
 ##### RequestParameters
 - sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
 
-정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 보내주시기 바랍니다.
+정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 이용해주시기 바랍니다.
 해당 파라미터가 없으면 생성일 기준 내림차순입니다.
 
 #### Response
@@ -456,17 +456,7 @@ HttpStatus: `200` OK
     }
     ```
 
-- 존재하지 않는 postId로 요청한 경우
-    HttpStatus: `404` Not Found
-    ```json
-    {
-        "status": 400,
-        "code": 774,
-        "message": "Invalid Post Id"
-    }
-    ```
-
-- title없이 요청한 경우
+- title 없이 요청한 경우
     HttpStatus: `400` Bad Request
     ```json
     {
@@ -542,7 +532,7 @@ HttpStatus: `201` Created
 
 #### Error 
 
-- token없이 요청한 경우
+- token 없이 요청한 경우
     HttpStatus: `401` Unauthorized
     ```json
     {
