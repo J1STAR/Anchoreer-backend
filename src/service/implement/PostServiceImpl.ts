@@ -152,4 +152,22 @@ export default class PostServiceImpl implements PostService {
 
         return orderByOption;
     }
+
+    private getCommentOrderByOption(sort: string) {
+        let orderByOption;
+
+        switch(sort) {
+            case "createdAt,asc":
+                orderByOption = { createdAt: "ASC"}
+                break;
+            case "createdAt,desc":
+                orderByOption = { createdAt: "DESC"}
+                break;
+            default:
+                orderByOption = { createdAt: "DESC"}
+                break;
+        }
+
+        return orderByOption;
+    }
 }

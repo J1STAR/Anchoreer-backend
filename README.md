@@ -262,6 +262,8 @@ HttpStatus: 200 OK
 }
 ```
 
+댓글은 생성일 기준 오름차순으로 조회됩니다.
+
 ##### Error 
 - 존재하지 않는 postId로 요청한 경우
     HttpStatus: 404 Not Found
