@@ -90,6 +90,19 @@ class PostController {
             }
         })
 
+        this.router.put('', async (req: Request, res: Response, next) => {
+
+            let post: PostDto = req.body;
+
+            try {
+                let savedPost = await this.postService.updatePost(post);
+
+                res.status(201).send(savedPost);
+            } catch (err) {
+                next(err);
+            }
+        })
+
         this.router.post('/:postId/comments', async (req: Request, res: Response, next) => {
             try {
                 let comment = req.body;

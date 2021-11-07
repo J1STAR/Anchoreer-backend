@@ -6,7 +6,7 @@
 ## Requirement
 ***
 해당 어플리케이션 실행 전 다음 프로세스를 진행해주시기 바랍니다.
-1. localhost에서 3306 port로 MySql 서버 실행
+1. localhost 3306 port로 MySql 서버 실행
 2. MySql 새로운 스키마 생성
     ```sql
     CREATE SCHEMA `jasoseol_zunkyu` DEFAULT CHARACTER SET utf8mb4 ;
@@ -43,7 +43,7 @@ kill -9 PID
 ### Sign Up (회원가입)
 
 #### Request
-[POST] /users/sign-up
+`[POST]` /users/sign-up
 
 ##### RequestBody
 ```
@@ -111,7 +111,7 @@ HttpStatus: 201 Created
 ### Sign In (로그인)
 
 #### Request
-[POST] /users/sign-in
+`[POST]` /users/sign-in
 
 ##### RequestBody
 ```
@@ -167,7 +167,7 @@ HttpHeader에 Authorization에 Bearer type으로 사용해주시기 바랍니다
 ### Create Post (글 작성)
 
 #### Request
-[POST] /posts
+`[POST]` /posts
 
 ##### RequestHeader
 ```
@@ -239,7 +239,7 @@ HttpStatus: 201 Created
 ### Get Post Detail (글 상세조회)
 
 #### Request
-[GET] /posts/:postId
+`[GET]` /posts/`:postId`
 
 ##### Response
 
@@ -274,6 +274,141 @@ HttpStatus: 200 OK
         "message": "Post Not Found"
     }
     ```
+
+
+***
+### Get Posts (글 조회)
+
+#### Request
+`[GET]` /posts
+
+##### RequestParameters
+- page: number `(optional)`
+- size: number `(optional)`
+- sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
+
+pagination이 필요한 경우 page, size 파라미터를 이용하시기 바랍니다.
+해당 파라미터가 없으면 모든 글을 조회합니다.
+
+정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 이용하시기 바랍니다.
+해당 파라미터가 없으면 생성일 기준 내림차순으로 조회합니다.
+
+
+##### Response
+
+HttpStatus: 200 OK
+
+```    
+[
+    {
+        "id": 2,
+        "title": "title",
+        "contents": "글 내용",
+        "updatedAt": "2021-11-07T05:50:59.291Z",
+        "createdAt": "2021-11-07T05:50:59.281Z",
+        "createdBy": {
+            "id": 1,
+            "email": "zunkyu@email.com",
+            "userName": "박준규",
+            "createdAt": "2021-11-07T05:21:47.798Z"
+        }
+    },
+    {
+        "id": 1,
+        "title": "글 제목",
+        "contents": "글 내용",
+        "updatedAt": "2021-11-07T05:34:26.687Z",
+        "createdAt": "2021-11-07T05:34:26.686Z",
+        "createdBy": {
+            "id": 1,
+            "email": "zunkyu@email.com",
+            "userName": "박준규",
+            "createdAt": "2021-11-07T05:21:47.798Z"
+        }
+    }
+]
+```
+
+***
+### Get Posts By UserName (작성자 이름으로 글 조회)
+
+#### Request
+`[GET]` /posts/search/user-name/`:userName`
+
+##### RequestParameters
+- sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
+
+정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 이용하시기 바랍니다.
+해당 파라미터가 없으면 생성일 기준 내림차순으로 조회합니다.
+
+##### Response
+
+HttpStatus: 200 OK
+
+```    
+[
+    {
+        "id": 2,
+        "title": "title",
+        "contents": "글 내용",
+        "updatedAt": "2021-11-07T05:50:59.291Z",
+        "createdAt": "2021-11-07T05:50:59.281Z",
+        "createdBy": {
+            "id": 1,
+            "email": "zunkyu@email.com",
+            "userName": "박준규",
+            "createdAt": "2021-11-07T05:21:47.798Z"
+        }
+    },
+    {
+        "id": 1,
+        "title": "글 제목",
+        "contents": "글 내용",
+        "updatedAt": "2021-11-07T05:34:26.687Z",
+        "createdAt": "2021-11-07T05:34:26.686Z",
+        "createdBy": {
+            "id": 1,
+            "email": "zunkyu@email.com",
+            "userName": "박준규",
+            "createdAt": "2021-11-07T05:21:47.798Z"
+        }
+    }
+]
+```
+
+***
+### Get Posts By Title (제목으로 글 조회)
+
+#### Request
+`[GET]` /posts/search/title/`:title`
+
+##### RequestParameters
+- sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
+
+정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 보내주시기 바랍니다.
+해당 파라미터가 없으면 생성일 기준 내림차순입니다.
+
+##### Response
+
+HttpStatus: 200 OK
+
+```    
+[
+    {
+        "id": 1,
+        "title": "글 제목",
+        "contents": "글 내용",
+        "updatedAt": "2021-11-07T05:34:26.687Z",
+        "createdAt": "2021-11-07T05:34:26.686Z",
+        "createdBy": {
+            "id": 1,
+            "email": "zunkyu@email.com",
+            "userName": "박준규",
+            "createdAt": "2021-11-07T05:21:47.798Z"
+        }
+    }
+]
+```
 
 ***
 ### Create Comment (댓글 작성)
@@ -436,137 +571,3 @@ void
         "message": "Invalid Comment Id"
     }
     ```
-
-***
-### Get Posts (글 조회)
-
-#### Request
-`[GET]` /posts
-
-##### RequestParameters
-- page: number `(optional)`
-- size: number `(optional)`
-- sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
-
-pagination이 필요한 경우 page, size 파라미터를 보내주시기 바랍니다.
-해당 파라미터가 없으면 모든 글을 조회합니다.
-
-정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 보내주시기 바랍니다.
-해당 파라미터가 없으면 생성일 기준 내림차순입니다.
-
-
-##### Response
-
-HttpStatus: 200 OK
-
-```    
-[
-    {
-        "id": 2,
-        "title": "title",
-        "contents": "글 내용",
-        "updatedAt": "2021-11-07T05:50:59.291Z",
-        "createdAt": "2021-11-07T05:50:59.281Z",
-        "createdBy": {
-            "id": 1,
-            "email": "zunkyu@email.com",
-            "userName": "박준규",
-            "createdAt": "2021-11-07T05:21:47.798Z"
-        }
-    },
-    {
-        "id": 1,
-        "title": "글 제목",
-        "contents": "글 내용",
-        "updatedAt": "2021-11-07T05:34:26.687Z",
-        "createdAt": "2021-11-07T05:34:26.686Z",
-        "createdBy": {
-            "id": 1,
-            "email": "zunkyu@email.com",
-            "userName": "박준규",
-            "createdAt": "2021-11-07T05:21:47.798Z"
-        }
-    }
-]
-```
-
-***
-### Get Posts By UserName (작성자 이름으로 글 조회)
-
-#### Request
-`[GET]` /posts/search/user-name/`:userName`
-
-##### RequestParameters
-- sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
-
-정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 보내주시기 바랍니다.
-해당 파라미터가 없으면 생성일 기준 내림차순입니다.
-
-##### Response
-
-HttpStatus: 200 OK
-
-```    
-[
-    {
-        "id": 2,
-        "title": "title",
-        "contents": "글 내용",
-        "updatedAt": "2021-11-07T05:50:59.291Z",
-        "createdAt": "2021-11-07T05:50:59.281Z",
-        "createdBy": {
-            "id": 1,
-            "email": "zunkyu@email.com",
-            "userName": "박준규",
-            "createdAt": "2021-11-07T05:21:47.798Z"
-        }
-    },
-    {
-        "id": 1,
-        "title": "글 제목",
-        "contents": "글 내용",
-        "updatedAt": "2021-11-07T05:34:26.687Z",
-        "createdAt": "2021-11-07T05:34:26.686Z",
-        "createdBy": {
-            "id": 1,
-            "email": "zunkyu@email.com",
-            "userName": "박준규",
-            "createdAt": "2021-11-07T05:21:47.798Z"
-        }
-    }
-]
-```
-
-***
-### Get Posts By Title (제목으로 글 조회)
-
-#### Request
-`[GET]` /posts/search/title/`:title`
-
-##### RequestParameters
-- sort: createdAt,asc | createdAt,desc | updatedAt,asc | updatedAt,desc `(optional)`
-
-정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 보내주시기 바랍니다.
-해당 파라미터가 없으면 생성일 기준 내림차순입니다.
-
-##### Response
-
-HttpStatus: 200 OK
-
-```    
-[
-    {
-        "id": 1,
-        "title": "글 제목",
-        "contents": "글 내용",
-        "updatedAt": "2021-11-07T05:34:26.687Z",
-        "createdAt": "2021-11-07T05:34:26.686Z",
-        "createdBy": {
-            "id": 1,
-            "email": "zunkyu@email.com",
-            "userName": "박준규",
-            "createdAt": "2021-11-07T05:21:47.798Z"
-        }
-    }
-]
-```

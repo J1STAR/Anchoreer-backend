@@ -84,6 +84,28 @@ export default class PostServiceImpl implements PostService {
         return posts.map(post => this.postMapper.convert(post));
     }
 
+    async updatePost(post: PostDto): Promise<PostDto> {
+        if(isNaN(post.id)) throw PostError.NO_POST;
+        if(post.title === null || post.title === undefined || post.title === "") throw PostError.NO_TITLE;
+
+        let findedPost = await this.postRepository.findById(post.id);
+        if(findedPost) {
+            findedPost.title = post.title;
+
+            if(post.contents == null || post.contents == undefined) {
+                post.contents = "";
+            }
+
+            findedPost.contents = post.contents;
+            findedPost.updatedAt = new Date();
+
+            let updatedPost = await this.postRepository.save(findedPost);
+            return this.postMapper.convert(updatedPost);
+        } else {
+            throw PostError.NO_POST;
+        }
+    }
+
     async createComment(user: UserDto, postId: number, comment: CommentDto): Promise<CommentDto> {
         if(isNaN(postId)) throw PostError.NO_POST;
         if(comment.contents === null || comment.contents === undefined || comment.contents === "") throw PostError.INVALID_COMMENT;
