@@ -85,7 +85,7 @@ export default class PostServiceImpl implements PostService {
     }
 
     async updatePost(post: PostDto): Promise<PostDto> {
-        if(isNaN(post.id)) throw PostError.NO_POST;
+        if(isNaN(post.id)) throw PostError.INVALID_POST_ID;
         if(post.title === null || post.title === undefined || post.title === "") throw PostError.NO_TITLE;
 
         let findedPost = await this.postRepository.findById(post.id);

@@ -46,7 +46,7 @@ kill -9 PID
 `[POST]` /users/sign-up
 
 ##### RequestBody
-```
+```typescript
 {
     email: string;
     userName: string;
@@ -54,9 +54,9 @@ kill -9 PID
 }
 ```
 
-##### Response
-HttpStatus: 201 Created
-```
+#### Response
+HttpStatus: `201` Created
+```json
 {
     "id": 1,
     "email": "zunkyu@email.com",
@@ -66,10 +66,10 @@ HttpStatus: 201 Created
 }
 ```
 
-##### Error 
+#### Error 
 - 올바르지 않은 email 양식인 경우
-    HttpStatus: 400 Bad Reqeust
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 258,
@@ -78,8 +78,8 @@ HttpStatus: 201 Created
     ```
 
 - Password없이 요청한 경우
-    HttpStatus: 400 Bad Reqeust
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 259,
@@ -88,8 +88,8 @@ HttpStatus: 201 Created
     ```
 
 - userName없이 요청한 경우
-    HttpStatus: 400 Bad Requst
-    ```
+    HttpStatus: `400` Bad Requst
+    ```json
     {
         "status": 400,
         "code": 261,
@@ -98,8 +98,8 @@ HttpStatus: 201 Created
     ```
 
 - 이미 가입한 email인 경우
-    HttpStatus: 409 Confilct
-    ```
+    HttpStatus: `409` Confilct
+    ```json
     {
         "status": 409,
         "code": 257,
@@ -114,16 +114,16 @@ HttpStatus: 201 Created
 `[POST]` /users/sign-in
 
 ##### RequestBody
-```
+```typescript
 {
     email: string;
     password: string;
 }
 ```
 
-##### Response
-HttpStatus: 200 OK
-```
+#### Response
+HttpStatus: `200` OK
+```json
 {
     "token": "6c5df8cea6e36542a094dcbd0614a71dd536fbed1b11f97208811313d54f00fa"
 }
@@ -132,10 +132,10 @@ HttpStatus: 200 OK
 해당 토큰은 글작성, 댓글작성에 사용됩니다.
 HttpHeader에 Authorization에 Bearer type으로 사용해주시기 바랍니다.
 
-##### Error 
+#### Error 
 - email없이 요청한 경우
-    HttpStatus: 400 Bad Request
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 258,
@@ -144,8 +144,8 @@ HttpHeader에 Authorization에 Bearer type으로 사용해주시기 바랍니다
     ```
 
 - Password없이 요청한 경우
-    HttpStatus: 400 Bad Request
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 259,
@@ -154,8 +154,8 @@ HttpHeader에 Authorization에 Bearer type으로 사용해주시기 바랍니다
     ```
 
 - email이나 password가 올바르지 않은 경우
-    HttpStatus: 400 Bad Request
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 260,
@@ -170,25 +170,25 @@ HttpHeader에 Authorization에 Bearer type으로 사용해주시기 바랍니다
 `[POST]` /posts
 
 ##### RequestHeader
-```
+```typescript
 {
     Authorization: Bearer '로그인 시 발급받은 토큰';
 }
 ```
 
 ##### RequestBody
-```
+```typescript
 {
     title: string;
     contents: string;
 }
 ```
 
-##### Response
+#### Response
 
-HttpStatus: 201 Created
+HttpStatus: `201` Created
     
-```
+```json
 {
     "id": 1,
     "title": "글 제목",
@@ -204,10 +204,10 @@ HttpStatus: 201 Created
 } 
 ```
 
-##### Error 
+#### Error 
 - token없이 요청한 경우
-    HttpStatus: 401 Unauthorized
-    ```
+    HttpStatus: `401` Unauthorized
+    ```json
     {
         "status": 401,
         "code": 513,
@@ -216,8 +216,8 @@ HttpStatus: 201 Created
     ```
     
 - 유효하지 않은 token으로 요청한 경우
-    HttpStatus: 401 Unauthorized
-    ```
+    HttpStatus: `401` Unauthorized
+    ```json
     {
         "status": 401,
         "code": 514,
@@ -226,8 +226,8 @@ HttpStatus: 201 Created
     ```
 
 - title없이 요청한 경우
-    HttpStatus: 400 Bad Request
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 771,
@@ -241,11 +241,11 @@ HttpStatus: 201 Created
 #### Request
 `[GET]` /posts/`:postId`
 
-##### Response
+#### Response
 
-HttpStatus: 200 OK
+HttpStatus: `200` OK
     
-```
+```json
 {
     "id": 1,
     "title": "글 제목",
@@ -264,10 +264,10 @@ HttpStatus: 200 OK
 
 댓글은 생성일 기준 오름차순으로 조회됩니다.
 
-##### Error 
+#### Error 
 - 존재하지 않는 postId로 요청한 경우
-    HttpStatus: 404 Not Found
-    ```
+    HttpStatus: `404` Not Found
+    ```json
     {
         "status": 404,
         "code": 769,
@@ -294,11 +294,11 @@ pagination이 필요한 경우 page, size 파라미터를 이용하시기 바랍
 해당 파라미터가 없으면 생성일 기준 내림차순으로 조회합니다.
 
 
-##### Response
+#### Response
 
-HttpStatus: 200 OK
+HttpStatus: `200` OK
 
-```    
+```json  
 [
     {
         "id": 2,
@@ -341,11 +341,11 @@ HttpStatus: 200 OK
 정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 이용하시기 바랍니다.
 해당 파라미터가 없으면 생성일 기준 내림차순으로 조회합니다.
 
-##### Response
+#### Response
 
-HttpStatus: 200 OK
+HttpStatus: `200` OK
 
-```    
+```json    
 [
     {
         "id": 2,
@@ -388,11 +388,11 @@ HttpStatus: 200 OK
 정렬이 필요한 경우 sort 파라미터에 위 네 값중 하나를 보내주시기 바랍니다.
 해당 파라미터가 없으면 생성일 기준 내림차순입니다.
 
-##### Response
+#### Response
 
-HttpStatus: 200 OK
+HttpStatus: `200` OK
 
-```    
+```json
 [
     {
         "id": 1,
@@ -411,30 +411,121 @@ HttpStatus: 200 OK
 ```
 
 ***
+### Update Post (글 수정)
+
+#### Request
+`[PUT]` /posts
+
+##### RequestBody
+```json
+{
+    "id": 1,
+    "title": "수정된 제목",
+    "contents": "수정된 내용"
+}
+```
+
+#### Response
+
+HttpStatus: `200` OK
+
+```json
+{
+    "id": 1,
+    "title": "수정된 제목",
+    "contents": "수정된 내용",
+    "updatedAt": "2021-11-07T12:18:58.659Z",
+    "createdAt": "2021-11-07T12:18:58.651Z",
+    "createdBy": {
+        "id": 1,
+        "email": "zunkyu@email.com",
+        "userName": "박준규",
+        "createdAt": "2021-11-07T11:12:44.035Z"
+    }
+}
+```
+
+#### Error
+- 올바르지 않은 postId로 요청한 경우
+    HttpStatus: `400` Bad Request
+    ```json
+    {
+        "status": 400,
+        "code": 774,
+        "message": "Invalid Post Id"
+    }
+    ```
+
+- 존재하지 않는 postId로 요청한 경우
+    HttpStatus: `404` Not Found
+    ```json
+    {
+        "status": 400,
+        "code": 774,
+        "message": "Invalid Post Id"
+    }
+    ```
+
+- title없이 요청한 경우
+    HttpStatus: `400` Bad Request
+    ```json
+    {
+        "status": 400,
+        "code": 771,
+        "message": "No Title"
+    }
+    ```
+
+***
+### Delete Post (글 삭제)
+
+#### Request
+`[DELETE]` /posts/`:postId`
+
+#### Response
+
+HttpStatus: `204` No Content
+
+```json
+void
+```
+
+#### Error
+- 올바르지 않은 postId로 요청한 경우
+    HttpStatus: `400` Bad Request
+    ```json
+    {
+        "status": 400,
+        "code": 774,
+        "message": "Invalid Post Id"
+    }
+    ```
+
+***
 ### Create Comment (댓글 작성)
 
 #### Request
 `[POST]` /posts/`:postId`/comments
 
 ##### RequestHeader
-```
+```typescript
 {
     Authorization: Bearer '로그인 시 발급받은 토큰';
 }
 ```
 
 ##### RequestBody
-```
+```typescript
 {
     contents: string;
 }
 ```
 
-##### Response
+#### Response
 
-HttpStatus: 201 Created
+HttpStatus: `201` Created
     
-```
+```json
 {
     "id": 1,
     "contents": "댓글",
@@ -449,11 +540,11 @@ HttpStatus: 201 Created
 }
 ```
 
-##### Error 
+#### Error 
 
 - token없이 요청한 경우
-    HttpStatus: 401 Unauthorized
-    ```
+    HttpStatus: `401` Unauthorized
+    ```json
     {
         "status": 401,
         "code": 513,
@@ -462,8 +553,8 @@ HttpStatus: 201 Created
     ```
     
 - 유효하지 않은 token으로 요청한 경우
-    HttpStatus: 401 Unauthorized
-    ```
+    HttpStatus: `401` Unauthorized
+    ```json
     {
         "status": 401,
         "code": 514,
@@ -472,8 +563,8 @@ HttpStatus: 201 Created
     ```
 
 - 존재하지 않는 postId로 요청한 경우
-    HttpStatus: 404 Not Found
-    ```
+    HttpStatus: `404` Not Found
+    ```json
     {
         "status": 404,
         "code": 769,
@@ -482,8 +573,8 @@ HttpStatus: 201 Created
     ```
 
 - 댓글 내용이 없는 경우
-    HttpStatus: 400 Bad Request
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 772,
@@ -498,18 +589,18 @@ HttpStatus: 201 Created
 `[PUT]` /posts/comments
 
 ##### RequestBody
-```
+```typescript
 {
     id: number;
     contents: string;
 }
 ```
 
-##### Response
+#### Response
 
-HttpStatus: 200 OK
+HttpStatus: `200` OK
     
-```
+```json
 {
     "id": 1,
     "contents": "수정된 댓글",
@@ -524,11 +615,11 @@ HttpStatus: 200 OK
 }
 ```
 
-##### Error 
+#### Error 
 
 - 존재하지 않는 commentId로 요청한 경우
-    HttpStatus: 404 Not Found
-    ```
+    HttpStatus: `404` Not Found
+    ```json
     {
         "status": 404,
         "code": 770,
@@ -537,8 +628,8 @@ HttpStatus: 200 OK
     ```
 
 - 댓글 내용이 없는 경우
-    HttpStatus: 400 Bad Request
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 772,
@@ -554,17 +645,17 @@ HttpStatus: 200 OK
 
 ##### Response
 
-HttpStatus: 204 No Content
+HttpStatus: `204` No Content
 
-```    
+```json
 void
 ```
 
-##### Error 
+#### Error 
 
 - commentId 형식과 맞지 않는 경우
-    HttpStatus: 400 Bad Request
-    ```
+    HttpStatus: `400` Bad Request
+    ```json
     {
         "status": 400,
         "code": 773,
