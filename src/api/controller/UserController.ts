@@ -15,28 +15,27 @@ class UserController {
     ) {
         this.userService = userService;
 
-        this.router.post('/sign-up', (req: Request, res: Response, next) => {
+        this.router.post('/sign-up', async (req: Request, res: Response, next) => {
 
-            let user: UserDto = req.body;
+            try {
+                let user: UserDto = req.body;
 
-            this.userService.signUp(user)
-            .then(user => {
-                res.status(201).send(user);
-            }).catch(err => {
+                let signedUpUser = await this.userService.signUp(user);
+                res.status(201).send(signedUpUser);
+            } catch (err) {
                 next(err);
-            });
+            }
         })
 
-        this.router.post('/sign-in', (req: Request, res: Response, next) => {
+        this.router.post('/sign-in', async (req: Request, res: Response, next) => {
 
-            let user: UserDto = req.body;
-
-            this.userService.signIn(user)
-            .then(token => {
+            try {
+                let user: UserDto = req.body;
+                let token = await this.userService.signIn(user);
                 res.status(200).send(token);
-            }).catch(err => {
+            } catch (err) {
                 next(err);
-            })
+            }
         })
 
     }
