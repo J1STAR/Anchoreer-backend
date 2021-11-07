@@ -2,7 +2,7 @@ import { Connection } from "typeorm";
 import { TransactionalTestContext } from "typeorm-transactional-tests";
 import { PostDto, UserDto } from "../../src/api/dto";
 import { connection } from "../../src/data/connection/Connection";
-import { UserError } from "../../src/error";
+import { PostError, UserError } from "../../src/error";
 import container from "../../src/injector";
 import { PostService } from "../../src/service";
 
@@ -23,7 +23,7 @@ afterAll(() => {
     conn.close();
 })
 
-test('createPost test', async () => {
+test('createPost: no user', async () => {
     let postService: PostService = container.get("PostService");
 
     let user = new UserDto();
@@ -36,5 +36,21 @@ test('createPost test', async () => {
         await postService.createPost(user, post);
     } catch (err) {
         expect(err).toEqual(UserError.INVALID_USER);
+    }
+})
+
+test('createPost: no title', async () => {
+    let postService: PostService = container.get("PostService");
+
+    let user = new UserDto();
+    user.id = 1;
+
+    let post = new PostDto();
+    post.contents = "내용";
+
+    try {
+        await postService.createPost(user, post);
+    } catch (err) {
+        expect(err).toEqual(PostError.NO_TITLE);
     }
 })

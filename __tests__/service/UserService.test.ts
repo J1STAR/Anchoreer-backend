@@ -4,10 +4,9 @@ import { TransactionalTestContext } from "typeorm-transactional-tests";
 import container from '../../src/injector';
 import { connection } from "../../src/data/connection/Connection";
 
-import { User } from "../../src/data/entity/User";
 import { UserService } from "../../src/service";
 import { AuthTokenDto, UserDto } from "../../src/api/dto";
-import { CustomError, UserError } from "../../src/error";
+import { UserError } from "../../src/error";
 
 let conn: Connection;
 let transactionalContext: TransactionalTestContext

@@ -30,6 +30,7 @@ export default class PostServiceImpl implements PostService {
     }
 
     async createPost(user: UserDto, post: PostDto): Promise<PostDto> {
+        if(post.title === null || post.title === undefined || post.title === "") throw PostError.NO_TITLE;
         let findedUser = await this.userRepository.findById(user.id);
         if(findedUser) {
             let postToSave = this.postMapper.revert(post);
