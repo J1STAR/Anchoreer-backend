@@ -3,6 +3,7 @@ import { PostRepository } from "..";
 import { Post } from "../../entity/Post";
 
 import { connection } from "../../connection/Connection";
+import { Like } from "typeorm";
 
 @injectable()
 export default class PostRepositoryImpl implements PostRepository {
@@ -30,7 +31,12 @@ export default class PostRepositoryImpl implements PostRepository {
     async findByUserName(userName: string): Promise<Post[]> {
         const postRepo = (await connection).getRepository(Post);
         let posts = await postRepo.find({relations: ["createdBy"], where: {createdBy: {userName: userName}}, order: {createdAt: "DESC"}});
-        console.log(posts);
+        return posts;
+    }
+
+    async findByTitle(title: string): Promise<Post[]> {
+        const postRepo = (await connection).getRepository(Post);
+        let posts = await postRepo.find({where: {title: Like('%' + title + '%')}, order: {createdAt: "DESC"}});
         return posts;
     }
 
