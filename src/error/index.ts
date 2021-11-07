@@ -23,6 +23,7 @@ export class UserError {
     static INVALID_EMAIL = new CustomError(400, ErrorType.TYPE_USER | 0x02, "Invalid Email");
     static INVALID_PASSWORD = new CustomError(400, ErrorType.TYPE_USER | 0x03, "Invalid Password");
     static INVALID_USER = new CustomError(400, ErrorType.TYPE_USER | 0x04, "Invalid User");
+    static INVALID_USER_NAME = new CustomError(400, ErrorType.TYPE_USER | 0x05, "Invalid UserName");
 }
 
 export class AuthError {

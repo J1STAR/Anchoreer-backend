@@ -54,7 +54,7 @@ class PostController {
             try {
                 let page = Number(req.query.page);
                 let size = Number(req.query.size);
-                let sort = req.query.sort as string; // createdAt,asc / createdAt,desc / updatedAt,asc / updatedAt,desc
+                let sort = req.query.sort as string;
 
                 let posts = await this.postService.getPosts(page, size, sort);
 

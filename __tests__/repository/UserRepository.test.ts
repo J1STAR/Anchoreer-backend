@@ -29,6 +29,7 @@ test('saveUser test', async () => {
     let user = new User();
     user.email = "email@emai.com";
     user.password = "test_pw";
+    user.userName = "test_userName";
     user.salt = "test_salt";
     user.createdAt = new Date();
 

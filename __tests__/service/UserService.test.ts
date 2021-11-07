@@ -26,11 +26,12 @@ afterAll(() => {
     conn.close();
 })
 
-test('signUp test', async () => {
+test('signUp', async () => {
     let userService: UserService = container.get("UserService");
 
     let user = new UserDto();
     user.email = "email@email.com";
+    user.userName = "test_userName";
     user.password = "test_pw";
 
     let savedUser = await userService.signUp(user);
@@ -38,7 +39,21 @@ test('signUp test', async () => {
     expect(savedUser.createdAt).not.toBe(null);
 })
 
-test('signUp test: invalid email', async () => {
+test('signUp: no userName', async () => {
+    let userService: UserService = container.get("UserService");
+
+    let user = new UserDto();
+    user.email = "email@email.com";
+    user.password = "test_pw";
+
+    try {
+        await userService.signUp(user);
+    } catch (err) {
+        expect(err).toEqual(UserError.INVALID_USER_NAME);
+    }
+})
+
+test('signUp: invalid email', async () => {
     let userService: UserService = container.get("UserService");
 
     let user = new UserDto();
@@ -52,11 +67,12 @@ test('signUp test: invalid email', async () => {
     }
 })
 
-test('signUp test: invalid password', async () => {
+test('signUp: invalid password', async () => {
     let userService: UserService = container.get("UserService");
 
     let user = new UserDto();
     user.email = "email@email.com"
+    user.userName = "test_userName"
     user.password = ""
 
     try {
@@ -67,7 +83,7 @@ test('signUp test: invalid password', async () => {
 
 })
 
-test('signIn test: invalid user', async () => {
+test('signIn: invalid user', async () => {
     let userService: UserService = container.get("UserService");
 
     let user = new UserDto();
@@ -81,7 +97,7 @@ test('signIn test: invalid user', async () => {
     }
 })
 
-test('signIn test: getToken', async () => {
+test('signIn: getToken', async () => {
     let userService: UserService = container.get("UserService");
 
     let user = new UserDto();
@@ -89,4 +105,47 @@ test('signIn test: getToken', async () => {
     user.password = "1234";
     
     expect(await userService.signIn(user)).toBeInstanceOf(AuthTokenDto);
+})
+
+test('signIn: no email', async () => {
+    let userService: UserService = container.get("UserService");
+
+    let user = new UserDto();
+    user.email = "";
+    user.password = "1234";
+    
+    try {
+        await userService.signIn(user);
+    } catch (err) {
+        expect(err).toEqual(UserError.INVALID_EMAIL);
+    }
+})
+
+test('signIn: no password', async () => {
+    let userService: UserService = container.get("UserService");
+
+    let user = new UserDto();
+    user.email = "email";
+    user.password = "";
+    
+    try {
+        await userService.signIn(user);
+    } catch (err) {
+        expect(err).toEqual(UserError.INVALID_PASSWORD);
+    }
+})
+
+test('signIn: dont throw InvalidPassword when passord is wrong', async () => {
+    let userService: UserService = container.get("UserService");
+
+    let user = new UserDto();
+    user.email = "zunkyu.park@email.com";
+    user.password = "wrong_password";
+    
+    try {
+        await userService.signIn(user);
+    } catch (err) {
+        expect(err).not.toEqual(UserError.INVALID_PASSWORD);
+        expect(err).toEqual(UserError.INVALID_USER);
+    }
 })

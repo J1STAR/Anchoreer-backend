@@ -37,6 +37,7 @@ export default class UserServiceImpl implements UserService {
 
     async signUp(user: UserDto): Promise<UserDto> {
         if(!this.validator.isEmail(user.email)) throw UserError.INVALID_EMAIL;
+        if(user.userName === null || user.userName === undefined || user.userName === "") throw UserError.INVALID_USER_NAME;
         if(user.password === null || user.password === undefined || user.password === "") throw UserError.INVALID_PASSWORD;
         if(await this.userRepository.existsByEmail(user.email)) throw UserError.ALREADY_EXIST_EMAIL;
         
