@@ -54,13 +54,9 @@ class PostController {
             try {
                 let page = Number(req.query.page);
                 let size = Number(req.query.size);
+                let sort = req.query.sort as string; // createdAt,asc / createdAt,desc / updatedAt,asc / updatedAt,desc
 
-                let posts;
-                if(!isNaN(page) && !isNaN(size) && page > 0 && size > 0) {
-                    posts = await this.postService.getPostsPageable(page, size);
-                } else {
-                    posts = await this.postService.getPosts();
-                }
+                let posts = await this.postService.getPosts(page, size, sort);
 
                 res.status(200).send(posts);
             } catch (err) {

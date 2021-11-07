@@ -56,17 +56,45 @@ export default class PostServiceImpl implements PostService {
         }
     }
 
-    async getPosts(): Promise<PostDto[]> {
-        let posts = await this.postRepository.findAll();
+    async getPosts(page: number, size: number, sort: string): Promise<PostDto[]> {
+
+        let orderByOption;
+
+        switch(sort) {
+            case "createdAt,asc":
+                orderByOption = { createdAt: "ASC"}
+                break;
+            case "createdAt,desc":
+                orderByOption = { createdAt: "DESC"}
+                break;
+            case "updatedAt,asc":
+                orderByOption = { updatedAt: "ASC"}
+                break;
+            case "updatedAt,desc":
+                orderByOption = { updatedAt: "DESC"}
+                break;
+            default:
+                orderByOption = { createdAt: "DESC"}
+                break;
+        }
+
+        let posts;
+
+        if(!isNaN(page) && !isNaN(size)) {
+            if(page == 0) page = 1;
+            posts = await this.postRepository.findAllPageableOrderby(page, size, orderByOption)
+        } else {
+            posts = await this.postRepository.findAllOrderBy(orderByOption);
+        }
         return posts.map(post => this.postMapper.convert(post));
     }
 
-    async getPostsPageable(page: number, size: number): Promise<PostDto[]> {
-        if(page == 0) page = 1;
+    // async getPostsPageable(page: number, size: number): Promise<PostDto[]> {
+    //     if(page == 0) page = 1;
 
-        let posts = await this.postRepository.findAllPageable(page, size);
-        return posts.map(post => this.postMapper.convert(post));
-    }
+    //     let posts = await this.postRepository.findAllPageable(page, size);
+    //     return posts.map(post => this.postMapper.convert(post));
+    // }
 
     async getPostsByUserName(userName: string): Promise<PostDto[]> {
         let posts = await this.postRepository.findByUserName(userName);

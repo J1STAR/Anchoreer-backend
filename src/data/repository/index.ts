@@ -19,7 +19,8 @@ export interface PostRepository {
     save(post: Post): Promise<Post>;
     findById(id: number): Promise<Post>;
     findAll(): Promise<Post[]>;
-    findAllPageable(page: number, size: number): Promise<Post[]>;
+    findAllOrderBy(orderByOption: any): Promise<Post[]>;
+    findAllPageableOrderby(page: number, size: number, orderByOption: any): Promise<Post[]>;
     findByUserName(userName: string): Promise<Post[]>;
     findByTitle(title: string): Promise<Post[]>;
 }
