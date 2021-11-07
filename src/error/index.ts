@@ -37,4 +37,5 @@ export class PostError {
     static NO_TITLE = new CustomError(400, ErrorType.TYPE_POST | 0x03, "No Title");
     static INVALID_COMMENT = new CustomError(400, ErrorType.TYPE_POST | 0x04, "Invalid Comment");
     static INVALID_COMMENT_ID = new CustomError(400, ErrorType.TYPE_POST | 0x05, "Invalid Comment Id");
+    static INVALID_POST_ID = new CustomError(400, ErrorType.TYPE_POST | 0x06, "Invalid Post Id");
 }

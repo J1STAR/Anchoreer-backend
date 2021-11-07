@@ -23,6 +23,7 @@ export interface PostRepository {
     findAllPageableOrderby(page: number, size: number, orderByOption: any): Promise<Post[]>;
     findByUserName(userName: string, orderByOption: any): Promise<Post[]>;
     findByTitle(title: string, orderByOption: any): Promise<Post[]>;
+    deleteById(id: number): Promise<void>;
 }
 
 export interface CommentRepository {

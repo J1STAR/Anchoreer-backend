@@ -45,4 +45,9 @@ export default class PostRepositoryImpl implements PostRepository {
         return posts;
     }
 
+    async deleteById(id: number): Promise<void> {
+        const postRepo = (await connection).getRepository(Post);
+        await postRepo.delete(id);
+    }
+
 }

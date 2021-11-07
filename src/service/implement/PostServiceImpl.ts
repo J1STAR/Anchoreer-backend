@@ -106,6 +106,12 @@ export default class PostServiceImpl implements PostService {
         }
     }
 
+    async deletePost(id: number): Promise<void> {
+        if(isNaN(id)) throw PostError.INVALID_POST_ID;
+
+        this.postRepository.deleteById(id);
+    }
+
     async createComment(user: UserDto, postId: number, comment: CommentDto): Promise<CommentDto> {
         if(isNaN(postId)) throw PostError.NO_POST;
         if(comment.contents === null || comment.contents === undefined || comment.contents === "") throw PostError.INVALID_COMMENT;

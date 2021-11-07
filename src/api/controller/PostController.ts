@@ -103,6 +103,17 @@ class PostController {
             }
         })
 
+        this.router.delete('/:postId', async (req: Request, res: Response, next) => {
+
+            try {
+                let postId = Number(req.params.postId);
+                await this.postService.deletePost(postId);
+                res.status(204).send();
+            } catch (err) {
+                next(err);
+            }
+        })
+
         this.router.post('/:postId/comments', async (req: Request, res: Response, next) => {
             try {
                 let comment = req.body;
