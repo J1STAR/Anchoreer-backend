@@ -1,10 +1,22 @@
-# 앵커리어 백엔드 과제 API - 박준규
-***
-앵커리어 백엔드 과제 API 입니다.
-본 백엔드 애플리케이션은 `node.js` 기반으로 제작되었습니다.
+# 앵커리어 백엔드 - 박준규
 
-## Requirement
+본 백엔드 애플리케이션은 `node.js` 기반으로 제작되었습니다.
 ***
+
+## How to Start
+```sh
+git clone https://github.com/junkyuu/Anchoreer-backend.git
+```
+
+```sh
+cd Anchoreer-backend
+```
+
+```sh
+npm install
+```
+***
+## Requirement
 해당 어플리케이션 실행 전 다음 프로세스를 진행해주시기 바랍니다.
 1. localhost의 3306 port로 MySql 서버 실행
 2. MySql 새로운 스키마 생성
@@ -13,14 +25,9 @@
     ```
 3. src/data/connection/Connection.ts 파일에서 DB 사용자, 비밀번호 입력
 
-## Installation
 ***
-```sh
-npm install
-```
 
 ## Run the App
-***
 ```sh
 npm start
 ```
@@ -37,9 +44,8 @@ lsof -i :7041
 ```sh
 kill -9 PID
 ```
-
-## REST API
 ***
+## REST API
 ### Sign Up (회원가입)
 
 #### Request
