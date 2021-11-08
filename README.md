@@ -45,6 +45,12 @@ lsof -i :7041
 kill -9 PID
 ```
 ***
+
+## How to Test
+```sh
+npm test
+```
+***
 ## REST API
 ### Sign Up (회원가입)
 
